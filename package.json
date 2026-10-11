@@ -1,0 +1,41 @@
+{
+  "name": "peer-diary-web",
+  "private": true,
+  "version": "1.0.0",
+  "description": "同行日记 Web 版 - 纯静态、浏览器本地存储、AI 分析",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "test": "vitest run",
+    "preview": "vite preview",
+    "lint": "tsc --noEmit -p tsconfig.json && eslint .",
+    "gen:icons": "node scripts/gen-icons.mjs"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "date-fns": "^3.6.0",
+    "dexie": "^4.0.8",
+    "lucide-react": "^0.400.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.5.0",
+    "zustand": "^4.5.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^9.39.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "fake-indexeddb": "^6.0.0",
+    "postcss": "^8.4.40",
+    "tailwindcss": "^3.4.7",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.70.0",
+    "vite": "^5.4.0",
+    "vitest": "2.1.9"
+  }
+}

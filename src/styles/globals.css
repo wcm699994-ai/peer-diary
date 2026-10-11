@@ -1,0 +1,289 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  :root {
+    --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+    --surface-soft: rgb(255 255 255 / 0.88);
+    --surface-solid: #fffdfa;
+    --shadow-card: 0 1px 2px rgb(42 52 41 / 6%), 0 8px 24px rgb(42 52 41 / 5%);
+    --shadow-card-hover: 0 2px 4px rgb(42 52 41 / 7%), 0 14px 30px rgb(42 52 41 / 8%);
+    --shadow-sheet: 0 24px 70px rgb(42 52 41 / 20%);
+  }
+
+  * {
+    @apply border-journal-200;
+  }
+
+  body {
+    @apply bg-journal-50 font-sans text-calm-900 antialiased;
+    background:
+      linear-gradient(180deg, rgb(244 247 244 / 0.72) 0%, rgb(250 248 245) 26%, rgb(245 240 232) 100%);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-journal-300;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-journal-400;
+  }
+
+  ::selection {
+    @apply bg-journal-200 text-calm-900;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  button,
+  select,
+  input[type='checkbox'],
+  input[type='radio'],
+  input[type='range'],
+  input[type='date'],
+  label {
+    @apply cursor-pointer;
+  }
+
+  button:disabled,
+  input:disabled,
+  textarea:disabled,
+  select:disabled {
+    @apply cursor-not-allowed;
+  }
+
+  input,
+  textarea,
+  select {
+    transition:
+      border-color 180ms var(--ease-standard),
+      background-color 180ms var(--ease-standard),
+      box-shadow 180ms var(--ease-standard),
+      opacity 180ms var(--ease-standard);
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-calm-300/60 ring-offset-2 ring-offset-journal-50;
+  }
+
+  /* 移动端安全区 */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+@layer components {
+  .book-card {
+    @apply rounded-book border border-journal-200/70;
+    background: var(--surface-soft);
+    box-shadow: var(--shadow-card);
+    backdrop-filter: blur(10px);
+    transition:
+      border-color 220ms var(--ease-standard),
+      box-shadow 220ms var(--ease-standard),
+      background-color 220ms var(--ease-standard);
+  }
+  .book-card:hover {
+    @apply border-journal-200;
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .tag-chip {
+    @apply inline-flex min-h-8 select-none items-center rounded-full border border-journal-200 bg-journal-100/85 px-3 py-1 text-sm text-calm-700;
+  }
+
+  .bottom-bar {
+    @apply border-t border-journal-200/60 bg-white/45 py-2 text-center text-xs text-journal-500 backdrop-blur-sm;
+  }
+
+  .motion-button {
+    @apply transition-all duration-200;
+    transform: translateZ(0);
+    transition-timing-function: var(--ease-standard);
+  }
+  .motion-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+  .motion-button:active:not(:disabled) {
+    transform: translateY(0) scale(0.96);
+  }
+
+  .icon-button {
+    @apply motion-button inline-flex h-9 w-9 items-center justify-center rounded-full text-calm-600 hover:bg-journal-100 disabled:opacity-40;
+  }
+
+  .pill-button {
+    @apply motion-button inline-flex min-h-9 items-center justify-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium disabled:opacity-45;
+  }
+
+  .primary-button {
+    @apply pill-button bg-calm-600 text-white hover:bg-calm-700;
+    box-shadow: 0 8px 18px rgb(75 96 72 / 16%);
+  }
+
+  .secondary-button {
+    @apply pill-button bg-journal-100 text-calm-700 hover:bg-journal-200;
+  }
+
+  .danger-button {
+    @apply pill-button bg-warm-100 text-warm-800 hover:bg-warm-200;
+  }
+
+  .section-title {
+    @apply text-sm font-semibold text-calm-800;
+  }
+
+  .muted-label {
+    @apply text-xs font-medium text-journal-500;
+  }
+
+  .soft-input {
+    @apply rounded-book border border-journal-200 bg-white/55 px-3 py-2 text-sm text-calm-800 outline-none placeholder:text-journal-400 focus:border-calm-400 focus:bg-white/80 disabled:opacity-55;
+  }
+
+  /* 日记输入框：16px 防 iOS 聚焦缩放，自动增高（height 由 JS 控制） */
+  .diary-textarea {
+    @apply w-full resize-none rounded-book border border-journal-200 bg-white/60 px-3 py-3 text-[16px] leading-8 text-calm-900 outline-none placeholder:text-journal-300 focus:border-calm-400 focus:bg-white/85 disabled:opacity-60;
+    min-height: 180px;
+    overflow: hidden;
+  }
+
+  /* PIN 键盘按钮：48px 触控目标 */
+  .key-button {
+    @apply motion-button flex h-12 w-full items-center justify-center rounded-book border border-journal-200 bg-white/75 text-lg font-medium text-calm-800 hover:bg-journal-100 active:scale-95;
+  }
+
+  .page-enter {
+    animation: pageEnter 320ms var(--ease-standard) both;
+  }
+  .date-transition {
+    animation: pageEnter 280ms var(--ease-standard) both;
+  }
+  .content-reveal {
+    animation: contentReveal 340ms var(--ease-standard) both;
+  }
+  .modal-backdrop {
+    animation: backdropIn 220ms ease-out both;
+  }
+  .modal-enter {
+    animation: modalEnter 300ms var(--ease-emphasized) both;
+  }
+  .toast-enter {
+    animation: toastEnter 340ms var(--ease-emphasized) both;
+  }
+  .skeleton-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .skeleton-shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 58%), transparent);
+    animation: shimmer 1.8s ease-in-out infinite;
+  }
+  .animate-shake {
+    animation: shake 400ms var(--ease-standard);
+  }
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes contentReveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 7px, 0) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@keyframes backdropIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes toastEnter {
+  from {
+    opacity: 0;
+    transform: translate3d(-50%, -14px, 0) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(-50%, 0, 0) scale(1);
+  }
+}
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-6px);
+  }
+  75% {
+    transform: translateX(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
